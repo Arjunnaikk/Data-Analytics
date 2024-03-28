@@ -33,7 +33,7 @@ df=pd.read_excel('data.xlsx', sheet_name='Sheet1')
 
 
 #switcher
-
+st.text_input('search')
 region=st.sidebar.multiselect(
     "SELECT REGION",
      options=df["Region"].unique(),
