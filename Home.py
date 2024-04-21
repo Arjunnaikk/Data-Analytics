@@ -23,8 +23,8 @@ with open('style.css')as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html = True)
 
 #uncomment these two lines if you fetch data from mysql
-#result = view_all_data()
-#df=pd.DataFrame(result,columns=["Policy","Expiry","Location","State","Region","Investment","Construction","BusinessType","Earthquake","Flood","Rating","id"])
+# result = view_all_data()
+# df=pd.DataFrame(result,columns=["Policy","Expiry","Location","State","Region","Investment","Construction","BusinessType","Earthquake","Flood","Rating","id"])
 
 #load excel file | comment this line when  you fetch data from mysql
 df=pd.read_excel('data.xlsx', sheet_name='Sheet1')
@@ -54,6 +54,7 @@ construction=st.sidebar.multiselect(
 df_selection=df.query(
     "Region==@region & Location==@location & Construction ==@construction"
 )
+
 
 #this function performs basic descriptive analytics like Mean,Mode,Sum  etc
 def Home():
@@ -97,9 +98,9 @@ def Home():
 
 #graphs
 def graphs():
-    #total_investment=int(df_selection["Investment"]).sum()
-    #averageRating=int(round(df_selection["Rating"]).mean(),2) 
-    #simple bar graph  investment by business type
+    total_investment=df_selection["Investment"].sum()
+    averageRating=round(df_selection["Rating"].mean(),2) 
+    # simple bar graph  investment by business type
     investment_by_business_type=(
         df_selection.groupby(by=["BusinessType"]).count()[["Investment"]].sort_values(by="Investment")
     )
@@ -149,20 +150,20 @@ def graphs():
       st.plotly_chart(fig, use_container_width=True, theme=theme_plotly)
 
 #function to show current earnings against expected target     
-# def Progressbar():
-#     st.markdown("""<style>.stProgress > div > div > div > div { background-image: linear-gradient(to right, #99ff99 , #FFFF00)}</style>""",unsafe_allow_html=True,)
-#     target=3000000000
-#     current=df_selection["Investment"].sum()
-#     percent=round((current/target*100))
-#     mybar=st.progress(0)
+def Progressbar():
+    st.markdown("""<style>.stProgress > div > div > div > div { background-image: linear-gradient(to right, #99ff99 , #FFFF00)}</style>""",unsafe_allow_html=True,)
+    target=3000000000
+    current=df_selection["Investment"].sum()
+    percent=round((current/target*100))
+    mybar=st.progress(0)
 
-#     if percent>100:
-#         st.subheader("Target done !")
-#     else:
-#      st.write("you have ",percent, "% " ,"of ", (format(target, 'd')), "TZS")
-#      for percent_complete in range(percent):
-#         time.sleep(0.1)
-#         mybar.progress(percent_complete+1,text=" Target Percentage")
+    if percent>100:
+        st.subheader("Target done !")
+    else:
+     st.write("you have ",percent, "% " ,"of ", (format(target, 'd')), "TZS")
+     for percent_complete in range(percent):
+        time.sleep(0.1)
+        mybar.progress(percent_complete+1,text=" Target Percentage")
 
 #menu bar
 def sideBar():
@@ -176,34 +177,34 @@ def sideBar():
         default_index=0
     )
  if selected=="Home":
-    #st.subheader(f"Page: {selected}")
+    st.subheader(f"Page: {selected}")
     Home()
     graphs()
-#  if selected=="Progress":
-#     #st.subheader(f"Page: {selected}")
-#     Progressbar()
-#     graphs()
+ if selected=="Progress":
+    #st.subheader(f"Page: {selected}")
+    Progressbar()
+    graphs()
 
 sideBar()
 # st.sidebar.image("data/logo1.png",caption="")
 
 
-# st.subheader('PICK FEATURES TO EXPLORE DISTRIBUTIONS TRENDS BY QUARTILES',)
-# #feature_x = st.selectbox('Select feature for x Qualitative data', df_selection.select_dtypes("object").columns)
-# feature_y = st.selectbox('Select feature for y Quantitative Data', df_selection.select_dtypes("number").columns)
-# fig2 = go.Figure(
-#     data=[go.Box(x=df['BusinessType'], y=df[feature_y])],
-#     layout=go.Layout(
-#         title=go.layout.Title(text="BUSINESS TYPE BY QUARTILES OF INVESTMENT"),
-#         plot_bgcolor='rgba(0, 0, 0, 0)',  # Set plot background color to transparent
-#         paper_bgcolor='rgba(0, 0, 0, 0)',  # Set paper background color to transparent
-#         xaxis=dict(showgrid=True, gridcolor='#cecdcd'),  # Show x-axis grid and set its color
-#         yaxis=dict(showgrid=True, gridcolor='#cecdcd'),  # Show y-axis grid and set its color
-#         font=dict(color='#cecdcd'),  # Set text color to black
-#     )
-# )
+st.subheader('PICK FEATURES TO EXPLORE DISTRIBUTIONS TRENDS BY QUARTILES',)
+#feature_x = st.selectbox('Select feature for x Qualitative data', df_selection.select_dtypes("object").columns)
+feature_y = st.selectbox('Select feature for y Quantitative Data', df_selection.select_dtypes("number").columns)
+fig2 = go.Figure(
+    data=[go.Box(x=df['BusinessType'], y=df[feature_y])],
+    layout=go.Layout(
+        title=go.layout.Title(text="BUSINESS TYPE BY QUARTILES OF INVESTMENT"),
+        plot_bgcolor='rgba(0, 0, 0, 0)',  # Set plot background color to transparent
+        paper_bgcolor='rgba(0, 0, 0, 0)',  # Set paper background color to transparent
+        xaxis=dict(showgrid=True, gridcolor='#cecdcd'),  # Show x-axis grid and set its color
+        yaxis=dict(showgrid=True, gridcolor='#cecdcd'),  # Show y-axis grid and set its color
+        font=dict(color='#cecdcd'),  # Set text color to black
+    )
+)
 # # Display the Plotly figure using Streamlit
-# st.plotly_chart(fig2,use_container_width=True)
+st.plotly_chart(fig2,use_container_width=True)
 
 
 
