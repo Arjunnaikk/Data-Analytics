@@ -32,12 +32,10 @@ with col3:
     box_date = str(datetime.datetime.now().strftime("%d %B %Y"))
     st.write(f"Last updated by:  \n {box_date}")
 
-with col4:
-    fig = px.bar(df, x="Retailer", y="TotalSales", labels={"TotalSales": "Total Sales {$}"},
-             title = "Total Sales by Retailer", hover_data=["TotalSales"],
-             template="gridon",height=500)
-
-    st.plotly_chart(fig,use_container_width=True)
+fig = px.bar(df, x="Retailer", y="Total Sales", labels={"Total Sales": "Total Sales {$}"},
+             title="Total Sales by Retailer", hover_data=["Total Sales"],
+             template="gridon", height=500)
+st.plotly_chart(fig, use_container_width=True)
 
 _, view1, dwn1, view2, dwn2 = st.columns([0.15,0.20,0.20,0.20,0.20])
 with view1:
