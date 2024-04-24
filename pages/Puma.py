@@ -32,8 +32,8 @@ with col3:
     box_date = str(datetime.datetime.now().strftime("%d %B %Y"))
     st.write(f"Last updated by:  \n {box_date}")
 
-fig = px.bar(df, x="Retailer", y="Total Sales", labels={"Total Sales": "Total Sales {$}"},
-             title="Total Sales by Retailer", hover_data=["Total Sales"],
+fig = px.bar(df, x="Retailer", y="TotalSales", labels={"TotalSales": "TotalSales {$}"},
+             title="TotalSales by Retailer", hover_data=["TotalSales"],
              template="gridon", height=500)
 st.plotly_chart(fig, use_container_width=True)
 
@@ -55,7 +55,7 @@ df["Month_Year"] = df["InvoiceDate"].dt.strftime("%b'%y")
 result = df.groupby(by = df["Month_Year"])["TotalSales"].sum().reset_index()
 
 with col5:
-    fig1 = px.line(result, x = "Month_Year", y = "TotalSales", title="Total Sales Over Time",
+    fig1 = px.line(result, x = "Month_Year", y = "TotalSales", title="TotalSales Over Time",
                    template="gridon")
     st.plotly_chart(fig1,use_container_width=True)
 
@@ -73,13 +73,13 @@ result1 = df.groupby(by="State")[["TotalSales","UnitsSold"]].sum().reset_index()
 
 # add the units sold as a line chart on a secondary y-axis
 fig3 = go.Figure()
-fig3.add_trace(go.Bar(x = result1["State"], y = result1["TotalSales"], name = "Total Sales"))
+fig3.add_trace(go.Bar(x = result1["State"], y = result1["TotalSales"], name = "TotalSales"))
 fig3.add_trace(go.Scatter(x=result1["State"], y = result1["UnitsSold"], mode = "lines",
                           name ="Units Sold", yaxis="y2"))
 fig3.update_layout(
-    title = "Total Sales and Units Sold by State",
+    title = "TotalSales and Units Sold by State",
     xaxis = dict(title="State"),
-    yaxis = dict(title="Total Sales", showgrid = False),
+    yaxis = dict(title="TotalSales", showgrid = False),
     yaxis2 = dict(title="Units Sold", overlaying = "y", side = "right"),
     template = "gridon",
     legend = dict(x=1,y=1.1)
@@ -113,13 +113,13 @@ fig4 = px.treemap(treemap, path = ["Region","City"], values = "TotalSales",
 fig4.update_traces(textinfo="label+value")
 
 with col7:
-    st.subheader(":point_right: Total Sales by Region and City in Treemap")
+    st.subheader(":point_right: TotalSales by Region and City in Treemap")
     st.plotly_chart(fig4,use_container_width=True)
 
 _, view4, dwn4 = st.columns([0.5,0.45,0.45])
 with view4:
     result2 = df[["Region","City","TotalSales"]].groupby(by=["Region","City"])["TotalSales"].sum()
-    expander = st.expander("View data for Total Sales by Region and City")
+    expander = st.expander("View data for TotalSales by Region and City")
     expander.write(result2)
 with dwn4:
     st.download_button("Get Data", data = result2.to_csv().encode("utf-8"),
