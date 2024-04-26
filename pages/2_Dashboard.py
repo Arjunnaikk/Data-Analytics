@@ -5,11 +5,13 @@ import plotly.graph_objects as go
 import datetime
 from PIL import Image
 import os
+import streamlit_authenticator as stauth
 import warnings
 warnings.filterwarnings('ignore')
 
 st.set_page_config(page_title="Superstore!!!", page_icon=":bar_chart:",layout="wide")
 
+# User authenticator
 st.title(" :bar_chart: Sample SuperStore EDA")
 st.markdown('<style>div.block-container{padding-top:1rem;}</style>',unsafe_allow_html=True)
 
@@ -42,7 +44,6 @@ with col2:
     date2 = pd.to_datetime(st.date_input("End Date", endDate))
 
 df = df[(df["Order Date"] >= date1) & (df["Order Date"] <= date2)].copy()
-
 st.sidebar.header("Choose your filter: ")
 # Create for Region
 region = st.sidebar.multiselect("Pick your Region", df["Region"].unique())
@@ -85,7 +86,7 @@ category_df = filtered_df.groupby(by = ["Category"], as_index = False)["Sales"].
 with col1:
     st.subheader("Category wise Sales")
     fig = px.bar(category_df, x = "Category", y = "Sales", text = ['${:,.2f}'.format(x) for x in category_df["Sales"]],
-                 template = "seaborn")
+                template = "seaborn")
     st.plotly_chart(fig,use_container_width=True, height = 200)
 
 with col2:
@@ -127,7 +128,7 @@ with st.expander("View Data of TimeSeries:"):
 # Create a treem based on Region, category, sub-Category
 st.subheader("Hierarchical view of Sales using TreeMap")
 fig3 = px.treemap(filtered_df, path = ["Region","Category","Sub-Category"], values = "Sales",hover_data = ["Sales"],
-                  color = "Sub-Category")
+                color = "Sub-Category")
 fig3.update_layout(width = 800, height = 650)
 st.plotly_chart(fig3, use_container_width=True)
 
@@ -159,8 +160,8 @@ with st.expander("Summary_Table"):
 # Create a scatter plot
 data1 = px.scatter(filtered_df, x = "Sales", y = "Profit", size = "Quantity")
 data1['layout'].update(title="Relationship between Sales and Profits using Scatter Plot.",
-                       titlefont = dict(size=20),xaxis = dict(title="Sales",titlefont=dict(size=19)),
-                       yaxis = dict(title = "Profit", titlefont = dict(size=19)))
+                    titlefont = dict(size=20),xaxis = dict(title="Sales",titlefont=dict(size=19)),
+                    yaxis = dict(title = "Profit", titlefont = dict(size=19)))
 st.plotly_chart(data1,use_container_width=True)
 
 with st.expander("View Data"):

@@ -51,4 +51,4 @@ if st.button("Login"):
 
 # Registration button
 if st.button("Register"):
-    st.markdown("[Click here to register](./pages/registration.py)")
+    st.markdown("[Click here to register](registration.py)")
