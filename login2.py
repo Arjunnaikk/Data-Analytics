@@ -14,8 +14,8 @@ def connect_to_mongodb():
     try:
         client = MongoClient("mongodb://localhost:27017")  # Update with your MongoDB connection string
         streamlit_auth = client['test_database']  # Update with your database name
-        user = streamlit_auth['users']  # Update with your collection name
-        return user, True  # Return a tuple with the database connection and a flag indicating success
+        user_collection = streamlit_auth['users']  # Update with your collection name
+        return user_collection, True  # Return the user collection and a flag indicating success
     except Exception as e:
         st.error(f"Failed to connect to MongoDB: {e}")
         return None, False  # Return None and False flag indicating failure
@@ -51,4 +51,30 @@ if st.button("Login"):
 
 # Registration button
 if st.button("Register"):
-    st.markdown("[Click here to register](registration.py)")
+    # Registration form
+    st.header("Register")
+    register_email = st.text_input("Email:")
+    register_username = st.text_input("Username:")
+    register_password = st.text_input("Password:", type="password")
+    register_confirm_password = st.text_input("Confirm Password:", type="password")
+
+    if register_password != register_confirm_password:
+        st.error("Passwords do not match. Please try again.")
+    else:
+        hashed_password = hash_password(register_password)
+        # Check if the email already exists in the database
+        existing_user = collection.find_one({"email": register_email})
+        if existing_user:
+            st.error("Email already exists. Please use a different email.")
+        else:
+            # Insert new user into the database
+            new_user = {
+                "email": register_email,
+                "username": register_username,
+                "password": hashed_password
+            }
+            collection.insert_one(new_user)
+            st.success("Registration successful!")
+            st.write("You can now login to the Dashboard.")
+            # Reset the app to the initial state (login page)
+            st.experimental_rerun()
