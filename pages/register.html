@@ -11,48 +11,51 @@
     <section>
       <h1 class="title">Registration Form</h1>
 
-      <form id="form">
+      <form id="registration-form" action="http://localhost:6001/api/auth/createuser" method="POST">
         <div class="input-control">
-          <label for="">Username</label>
-          <input type="text" placeholder="username" id="username" />
+          <label for="name">Username</label>
+          <input type="text" placeholder="name" id="name" name="name" />
           <i class="fas fa-check-circle"></i>
           <i class="fas fa-exclamation-circle"></i>
-          <small>Error message</small>
+          <small class="error-message"></small>
         </div>
 
         <div class="input-control">
-          <label for="">Email</label>
-          <input type="email" placeholder="info@email.com" id="email" />
+          <label for="email">Email</label>
+          <input type="email" placeholder="info@email.com" id="email" name="email" />
           <i class="fas fa-check-circle"></i>
           <i class="fas fa-exclamation-circle"></i>
-          <small>Error message</small>
+          <small class="error-message"></small>
         </div>
 
         <div class="input-control">
-          <label for="">Password</label>
-          <input type="password" placeholder="password" id="password" />
+          <label for="password">Password</label>
+          <input type="password" placeholder="password" id="password" name="password" />
           <i class="fas fa-check-circle"></i>
           <i class="fas fa-exclamation-circle"></i>
-          <small>Error message</small>
+          <small class="error-message"></small>
         </div>
 
-        <div class="input-control">
-          <label for="">Confirm Password</label>
+        <!-- <div class="input-control">
+          <label for="confirm-password">Confirm Password</label>
           <input
             type="password"
             placeholder="confirm password"
-            id="confirmpassword" />
+            id="confirm-password"
+            name="confirmPassword" />
           <i class="fas fa-check-circle"></i>
           <i class="fas fa-exclamation-circle"></i>
-          <small>Error message</small>
-        </div>
+          <small class="error-message"></small>
+        </div> -->
 
-        <button>Register</button>
+        <button type="submit">Register</button>
       </form>
 
       <div class="message hidden">
-        <p>Registered succesfully!🎉</p>
+        <p>Registered successfully! 🎉</p>
       </div>
     </section>
-  </body>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js'></script>
+    <script src='register.js'></script>
+</body>
 </html>

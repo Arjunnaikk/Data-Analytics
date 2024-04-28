@@ -27,8 +27,10 @@ if fl is not None:
     else:
         df = pd.read_csv(fl, encoding = "ISO-8859-1")
 else:
-    os.chdir(r"C:\Users\nazar\OneDrive\Desktop\Data-Analytics\Datadic")
+    os.chdir(r"C:\Users\NAIK\Documents\Data-Analytics\Datadic")
     df = pd.read_excel("Superstore.xls")
+    # os.chdir(r"C:\Users\nazar\OneDrive\Desktop\Data-Analytics\Datadic")
+    # os.chdir(r"C:\Users\hp1\OneDrive\Desktop\MiniprjSem4\Datadic")
 
 col1, col2 = st.columns((2))
 df["Order Date"] = pd.to_datetime(df["Order Date"])
