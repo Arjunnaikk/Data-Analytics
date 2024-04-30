@@ -36,6 +36,7 @@ registrationForm.addEventListener('submit', async (event) => {
       // Display a success message
       const successMessage = document.querySelector('.message');
       successMessage.classList.remove('hidden');
+      window.location.href = 'http://127.0.0.1:5500/pages/login.html';
     } else {
       // Display an error message
       const errorMessage = document.querySelector('.error-message');
